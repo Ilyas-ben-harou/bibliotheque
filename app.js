@@ -4,19 +4,23 @@ const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
+require('dotenv').config(); // Ensure you load environment variables
 
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/bibliotheque';
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Connexion à MongoDB
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  bufferCommands: false,
 })
 .then(() => console.log('Connexion à MongoDB réussie'))
-.catch(err => console.error('Erreur de connexion à MongoDB:', err));
+.catch(err => {
+  console.error('Erreur de connexion à MongoDB:', err);
+  process.exit(1);  // Exit the process if MongoDB connection fails
+});
 
 // Configuration du moteur de template EJS
 app.set('view engine', 'ejs');
@@ -27,17 +31,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(session({
-  secret: 'your-secret-key-here',
+  secret: process.env.SESSION_SECRET || 'your-secret-key-here', // Make sure you use a secure key
   resave: false,
   saveUninitialized: false,
-  cookie: { 
+  cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 1 jour
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
       sameSite: 'lax'
   },
   name: 'myapp.sid'
 }));
+
+// Set userId to locals
 app.use((req, res, next) => {
   res.locals.userId = req.session.userId;
   next();
@@ -68,6 +74,11 @@ app.use('/emprunts', requireLogin, empruntRoutes);
 // Page d'accueil (protégée)
 app.get('/', requireLogin, (req, res) => {
   res.render('index');
+});
+
+// Handle 404 errors for undefined routes
+app.use((req, res) => {
+  res.status(404).send('Page non trouvée');
 });
 
 // Démarrage du serveur
