@@ -1,0 +1,43 @@
+<html lang="fr">
+<head>
+  <%- include('../partials/head') %>
+  <title>Détails du Livre</title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h1>Détails du Livre</h1>
+    
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= livre.titre %></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Par <%= livre.auteur %></h6>
+        
+        <p class="card-text"><strong>ISBN:</strong> <%= livre.isbn %></p>
+        <p class="card-text"><strong>Catégorie:</strong> <%= livre.categorie %></p>
+        <p class="card-text"><strong>Année de publication:</strong> <%= livre.anneePublication %></p>
+        <p class="card-text"><strong>Quantité disponible:</strong> 
+          <% if (livre.quantiteDisponible > 0) { %>
+            <span class="badge badge-success"><%= livre.quantiteDisponible %></span>
+          <% } else { %>
+            <span class="badge badge-danger">Indisponible</span>
+          <% } %>
+        </p>
+        
+        <% if (livre.description) { %>
+          <p class="card-text"><strong>Description:</strong> <%= livre.description %></p>
+        <% } %>
+        
+        <a href="/livres/<%= livre._id %>/edit" class="btn btn-warning">Modifier</a>
+        <form action="/livres/<%= livre._id %>?_method=DELETE" method="POST" class="d-inline">
+          <button class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre?')">Supprimer</button>
+        </form>
+        <a href="/livres" class="btn btn-secondary">Retour à la liste</a>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

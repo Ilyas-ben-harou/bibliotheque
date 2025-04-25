@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../partials/head') %>
+  <title>Détails de l'Emprunt</title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h1>Détails de l'Emprunt</h1>
+    
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Emprunt de <%= emprunt.etudiant.prenom %> <%= emprunt.etudiant.nom %></h5>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle mb-2">Informations sur l'étudiant</h6>
+            <p class="card-text"><strong>Matricule:</strong> <%= emprunt.etudiant.matricule %></p>
+            <p class="card-text"><strong>Email:</strong> <%= emprunt.etudiant.email %></p>
+          </div>
+          
+          <div class="col-md-6">
+            <h6 class="card-subtitle mb-2">Informations sur le livre</h6>
+            <p class="card-text"><strong>Titre:</strong> <%= emprunt.livre.titre %></p>
+            <p class="card-text"><strong>Auteur:</strong> <%= emprunt.livre.auteur %></p>
+            <p class="card-text"><strong>ISBN:</strong> <%= emprunt.livre.isbn %></p>
+          </div>
+        </div>
+        
+        <hr>
+        
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <p class="card-text"><strong>Date d'emprunt:</strong> <%= emprunt.dateEmprunt.toLocaleDateString() %></p>
+            <p class="card-text"><strong>Date prévue de retour:</strong> <%= emprunt.dateRetourPrevue.toLocaleDateString() %></p>
+            <% if (emprunt.dateRetourEffective) { %>
+              <p class="card-text"><strong>Date effective de retour:</strong> <%= emprunt.dateRetourEffective.toLocaleDateString() %></p>
+            <% } %>
+          </div>
+          
+          <div class="col-md-6">
+            <p class="card-text">
+              <strong>Statut:</strong> 
+              <% if (emprunt.statut === 'En cours') { %>
+                <span class="badge badge-primary">En cours</span>
+              <% } else if (emprunt.statut === 'Retourné') { %>
+                <span class="badge badge-success">Retourné</span>
+              <% } else if (emprunt.statut === 'En retard') { %>
+                <span class="badge badge-danger">En retard</span>
+              <% } %>
+            </p>
+            
+            <% if (emprunt.statut === 'En cours') { %>
+              <form action="/emprunts/<%= emprunt._id %>?_method=PUT" method="POST" class="d-inline">
+                <input type="hidden" name="statut" value="Retourné">
+                <input type="hidden" name="etudiant" value="<%= emprunt.etudiant._id %>">
+                <input type="hidden" name="livre" value="<%= emprunt.livre._id %>">
+                <input type="hidden" name="dateEmprunt" value="<%= emprunt.dateEmprunt.toISOString().split('T')[0] %>">
+                <input type="hidden" name="dateRetourPrevue" value="<%= emprunt.dateRetourPrevue.toISOString().split('T')[0] %>">
+                <button type="submit" class="btn btn-success">Marquer comme retourné</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+        
+        <div class="mt-4">
+          <a href="/emprunts/<%= emprunt._id %>/edit" class="btn btn-warning">Modifier</a>
+          <form action="/emprunts/<%= emprunt._id %>?_method=DELETE" method="POST" class="d-inline">
+            <button class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet emprunt?')">Supprimer</button>
+          </form>
+          <a href="/emprunts" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

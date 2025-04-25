@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="/">Bibliothèque</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Menu principal -->
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/livres"><i class="fas fa-book me-1"></i>Livres</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/etudiants"><i class="fas fa-user-graduate me-1"></i>Étudiants</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/emprunts"><i class="fas fa-exchange-alt me-1"></i>Emprunts</a>
+        </li>
+      </ul>
+      
+      <!-- Bouton de déconnexion séparé et aligné à droite -->
+      <div class="navbar-nav">
+        <% if (typeof userId !== 'undefined' && userId) { %>
+          <a href="/logout" class="btn btn-outline-light">
+            <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
+          </a>
+        <% } else { %>
+          <a href="/login" class="btn btn-outline-light me-2">
+            <i class="fas fa-sign-in-alt me-1"></i>Connexion
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>

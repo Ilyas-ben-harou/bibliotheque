@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../partials/head') %>
+  <title>Liste des Emprunts</title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h1>Liste des Emprunts</h1>
+    
+    <a href="/emprunts/new" class="btn btn-success mb-3">Nouvel emprunt</a>
+    
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Étudiant</th>
+          <th>Livre</th>
+          <th>Date d'emprunt</th>
+          <th>Date prévue de retour</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% emprunts.forEach(emprunt => { %>
+          <tr>
+            <td><%= emprunt.etudiant.prenom %> <%= emprunt.etudiant.nom %></td>
+            <td><%= emprunt.livre.titre %></td>
+            <td><%= emprunt.dateEmprunt.toLocaleDateString() %></td>
+            <td><%= emprunt.dateRetourPrevue.toLocaleDateString() %></td>
+            <td>
+              <% if (emprunt.statut === 'En cours') { %>
+                <span class="badge badge-primary">En cours</span>
+              <% } else if (emprunt.statut === 'Retourné') { %>
+                <span class="badge badge-success">Retourné</span>
+              <% } else if (emprunt.statut === 'En retard') { %>
+                <span class="badge badge-danger">En retard</span>
+              <% } %>
+            </td>
+            <td>
+              <a href="/emprunts/<%= emprunt._id %>" class="btn btn-info btn-sm">Détails</a>
+              <a href="/emprunts/<%= emprunt._id %>/edit" class="btn btn-warning btn-sm">Modifier</a>
+              <form action="/emprunts/<%= emprunt._id %>?_method=DELETE" method="POST" class="d-inline">
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet emprunt?')">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

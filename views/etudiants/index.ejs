@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../partials/head') %>
+  <title>Liste des Étudiants</title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h1>Liste des Étudiants</h1>
+    
+    <a href="/etudiants/new" class="btn btn-success mb-3">Ajouter un étudiant</a>
+    
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Matricule</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% etudiants.forEach(etudiant => { %>
+          <tr>
+            <td><%= etudiant.matricule %></td>
+            <td><%= etudiant.nom %></td>
+            <td><%= etudiant.prenom %></td>
+            <td><%= etudiant.email %></td>
+            <td>
+              <a href="/etudiants/<%= etudiant._id %>" class="btn btn-info btn-sm">Détails</a>
+              <a href="/etudiants/<%= etudiant._id %>/edit" class="btn btn-warning btn-sm">Modifier</a>
+              <form action="/etudiants/<%= etudiant._id %>?_method=DELETE" method="POST" class="d-inline">
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant?')">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

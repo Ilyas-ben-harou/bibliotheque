@@ -1,0 +1,27 @@
+{
+  "name": "gestion-de-bibliotiques",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "init-admin": "node initAdmin.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "connect-mongo": "^4.6.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "gestion-de-bibliotiques": "file:",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.13.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../partials/head') %>
+  <title>Détails de l'Étudiant</title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h1>Détails de l'Étudiant</h1>
+    
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= etudiant.prenom %> <%= etudiant.nom %></h5>
+        <p class="card-text"><strong>Matricule:</strong> <%= etudiant.matricule %></p>
+        <p class="card-text"><strong>Email:</strong> <%= etudiant.email %></p>
+        <p class="card-text"><strong>Téléphone:</strong> <%= etudiant.telephone || 'Non renseigné' %></p>
+        <p class="card-text"><strong>Date d'inscription:</strong> <%= etudiant.dateInscription.toLocaleDateString() %></p>
+        
+        <a href="/etudiants/<%= etudiant._id %>/edit" class="btn btn-warning">Modifier</a>
+        <form action="/etudiants/<%= etudiant._id %>?_method=DELETE" method="POST" class="d-inline">
+          <button class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant?')">Supprimer</button>
+        </form>
+        <a href="/etudiants" class="btn btn-secondary">Retour à la liste</a>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

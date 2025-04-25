@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <%- include('../partials/head') %>
+  <title>Modifier un Étudiant</title>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  
+  <div class="container mt-5">
+    <h1>Modifier l'Étudiant</h1>
+    
+    <% if (typeof erreur !== 'undefined') { %>
+      <div class="alert alert-danger" role="alert">
+        <%= erreur %>
+      </div>
+    <% } %>
+    
+    <form action="/etudiants/<%= etudiant._id %>?_method=PUT" method="POST">
+      <div class="form-group">
+        <label for="matricule">Matricule:</label>
+        <input type="text" class="form-control" id="matricule" name="matricule" value="<%= etudiant.matricule %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="nom">Nom:</label>
+        <input type="text" class="form-control" id="nom" name="nom" value="<%= etudiant.nom %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="prenom">Prénom:</label>
+        <input type="text" class="form-control" id="prenom" name="prenom" value="<%= etudiant.prenom %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" value="<%= etudiant.email %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="telephone">Téléphone:</label>
+        <input type="text" class="form-control" id="telephone" name="telephone" value="<%= etudiant.telephone %>">
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Mettre à jour</button>
+      <a href="/etudiants/<%= etudiant._id %>" class="btn btn-secondary">Annuler</a>
+    </form>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>
