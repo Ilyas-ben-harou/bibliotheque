@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <%- include('../partials/head') %>
@@ -5,35 +6,46 @@
 </head>
 <body>
   <%- include('../partials/navbar') %>
-  
+
   <div class="container mt-5">
-    <h1>Détails du Livre</h1>
-    
-    <div class="card">
+    <h1 class="mb-4 fw-bold text-primary">📖 Détails du Livre</h1>
+
+    <div class="card shadow-sm border-0 rounded">
       <div class="card-body">
-        <h5 class="card-title"><%= livre.titre %></h5>
-        <h6 class="card-subtitle mb-2 text-muted">Par <%= livre.auteur %></h6>
-        
-        <p class="card-text"><strong>ISBN:</strong> <%= livre.isbn %></p>
-        <p class="card-text"><strong>Catégorie:</strong> <%= livre.categorie %></p>
-        <p class="card-text"><strong>Année de publication:</strong> <%= livre.anneePublication %></p>
-        <p class="card-text"><strong>Quantité disponible:</strong> 
-          <% if (livre.quantiteDisponible > 0) { %>
-            <span class="badge badge-success"><%= livre.quantiteDisponible %></span>
-          <% } else { %>
-            <span class="badge badge-danger">Indisponible</span>
-          <% } %>
-        </p>
-        
+        <h3 class="card-title text-dark fw-semibold"><%= livre.titre %></h3>
+        <h6 class="card-subtitle mb-3 text-muted">Par <%= livre.auteur %></h6>
+
+        <ul class="list-unstyled mb-4">
+          <li><strong>📘 ISBN :</strong> <%= livre.isbn %></li>
+          <li><strong>📂 Catégorie :</strong> <%= livre.categorie %></li>
+          <li><strong>📅 Année de publication :</strong> <%= livre.anneePublication %></li>
+          <li>
+            <strong>📦 Disponibilité :</strong>
+            <% if (livre.quantiteDisponible > 0) { %>
+              <span class="badge bg-success"><%= livre.quantiteDisponible %> disponible(s)</span>
+            <% } else { %>
+              <span class="badge bg-danger">Indisponible</span>
+            <% } %>
+          </li>
+        </ul>
+
         <% if (livre.description) { %>
-          <p class="card-text"><strong>Description:</strong> <%= livre.description %></p>
+          <p><strong>📝 Description :</strong> <%= livre.description %></p>
         <% } %>
-        
-        <a href="/livres/<%= livre._id %>/edit" class="btn btn-warning">Modifier</a>
-        <form action="/livres/<%= livre._id %>?_method=DELETE" method="POST" class="d-inline">
-          <button class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre?')">Supprimer</button>
-        </form>
-        <a href="/livres" class="btn btn-secondary">Retour à la liste</a>
+
+        <div class="mt-4">
+          <a href="/livres/<%= livre._id %>/edit" class="btn btn-outline-warning me-2">
+            <i class="fas fa-edit me-1"></i>Modifier
+          </a>
+          <form action="/livres/<%= livre._id %>?_method=DELETE" method="POST" class="d-inline">
+            <button class="btn btn-outline-danger me-2" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre?')">
+              <i class="fas fa-trash-alt me-1"></i>Supprimer
+            </button>
+          </form>
+          <a href="/livres" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Retour à la liste
+          </a>
+        </div>
       </div>
     </div>
   </div>
